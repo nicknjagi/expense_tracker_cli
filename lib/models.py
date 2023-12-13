@@ -1,6 +1,6 @@
 from sqlalchemy import Column,Text, Integer,String, func,ForeignKey,  DateTime, MetaData,Table
 from sqlalchemy.orm import declarative_base, relationship ,backref
-from .config import engine
+from config import engine
 
 
 convention = {
