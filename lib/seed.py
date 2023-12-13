@@ -23,4 +23,15 @@ if __name__ == "__main__":
         session.add(user)
         session.commit()
         users.append(user)
+    
+    category_list = ['furniture','healthcare','utilities', 'restaurants', 'food', 'transportation', 'mortgage', 'clothing']
+    categories = []
+    for category in category_list:
+        new_category = Category(
+            name = category
+        )
+        session.add(new_category)
+        session.commit()
+        
+        categories.append(new_category)
         
