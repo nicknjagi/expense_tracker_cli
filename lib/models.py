@@ -1,17 +1,56 @@
-from sqlalchemy import Column,Text, Integer,String, Boolean,ForeignKey,  DateTime
-from sqlalchemy.orm import declarative_base, relationship
-from config import engine
+from sqlalchemy import Column,Text, Integer,String, func,ForeignKey,  DateTime, MetaData,Table
+from sqlalchemy.orm import declarative_base, relationship ,backref
+from .config import engine
 
-Base = declarative_base()
+
+convention = {
+    "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s",
+}
+metadata = MetaData(naming_convention=convention)
+
+Base = declarative_base(metadata=metadata)
 Base.metadata.create_all(engine)
 
+
+user_category = Table(
+    'user_categories',
+    Base.metadata,
+    Column('user_id', ForeignKey('users.id'), primary_key=True),
+    Column('category_id', ForeignKey('categories.id'), primary_key=True),
+    extend_existing=True
+)
 class User(Base):
-    pass
+    __tablename__="users"
+    id=Column(Integer(), primary_key=True)
+    first_name= Column(String())
+    last_name=Column(String()) 
+    phone_number=Column(Integer())
+        
+    
+    expenses = relationship("Expense", backref=backref("user"))
+    categories = relationship("Category",secondary=user_category, back_populates="users")
 
 
 class Category(Base):
-    pass
+    __tablename__="categories"
+    id=Column(Integer(), primary_key=True)
+    name= Column(String())
+    
+    expenses = relationship("Expense",backref=backref("category"))
+    users = relationship("User",secondary=user_category, back_populates="categories")
 
 
 class Expense(Base):
-    pass
+    __tablename__="expenses"
+    id=Column(Integer(), primary_key=True)
+    amount= Column(Integer())
+    description=Column(Text) 
+    date=Column(DateTime(),default=func.now())
+    
+    
+    user_id=Column(Integer(),ForeignKey("users.id"))
+    category_id=Column(Integer(),ForeignKey("categories.id"))
+    
+    
+    
+
