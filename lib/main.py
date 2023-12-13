@@ -37,6 +37,16 @@ def search_user():
     else:
         click.secho(f'No user with id {id} found.', fg='white')  
         
+@cli.command()
+def delete_user():
+    id = click.prompt(click.style("Enter the user id", fg="blue", bold=True))
+    user = session.query(User).filter(User.id == id)
+    if user.first() != None:
+        user.delete()
+        session.commit()
+        click.secho('The user has been deleted.', fg="red")   
+    else:
+        click.secho(f'No user with id {id} found.', fg='white') 
         
 if __name__ == "__main__":
     click.secho(f'\n{"-" * 30} EXPENSE TRACKER {"-" * 30}\n',overline=False, underline=False,bold=True, fg='bright_cyan')
