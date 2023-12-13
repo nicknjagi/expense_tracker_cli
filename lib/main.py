@@ -57,10 +57,11 @@ def get_users():
 @cli.command()
 def get_categories():
     categories = session.query(Category).all()
-    click.secho('id| category_name', fg='yellow', underline=True, overline=True)
+    click.secho('showing all categories', fg='yellow', underline=True, overline=True)
     for category in categories:
-        click.secho(f'{category.id} | {category.name}')
-        
+        click.secho(category)
+    
+    print("")    
         
 if __name__ == "__main__":
     click.secho(f'\n{"-" * 30} EXPENSE TRACKER {"-" * 30}\n',overline=False, underline=False,bold=True, fg='bright_cyan')
