@@ -29,6 +29,9 @@ class User(Base):
     
     expenses = relationship("Expense", backref=backref("user"))
     categories = relationship("Category",secondary=user_category, back_populates="users")
+    
+    def __repr__(self):
+        return f"User(id={self.id}, first_name={self.first_name}, last_name={self.last_name}, phone_number={self.phone_number})"
 
 
 class Category(Base):
@@ -38,6 +41,9 @@ class Category(Base):
     
     expenses = relationship("Expense",backref=backref("category"))
     users = relationship("User",secondary=user_category, back_populates="categories")
+    
+    def __repr__(self):
+        return f"Category(id={self.id}, name={self.name})"
 
 
 class Expense(Base):
@@ -50,6 +56,9 @@ class Expense(Base):
     
     user_id=Column(Integer(),ForeignKey("users.id"))
     category_id=Column(Integer(),ForeignKey("categories.id"))
+    
+    def __repr__(self):
+        return f"Expense(id={self.id},amount={self.amount},date={self.date},category_id={self.category_id},user_id={self.user_id})"
     
     
     
