@@ -35,3 +35,25 @@ if __name__ == "__main__":
         
         categories.append(new_category)
         
+    expenses = []
+    for user in users:
+        for i in range(random.randint(1,5)):
+            category = random.choice(categories)
+            if user not in category.users:
+                category.users.append(user)
+                session.add(category)
+                session.commit()
+        
+            expense = Expense(
+                amount = random.randint(100,500),
+                date = fake.date_time_this_year(),
+                description = fake.sentence(nb_words=6),
+                category_id = category.id,
+                user_id = user.id
+            )
+        
+            expenses.append(expense)
+        
+    session.add_all(expenses)
+    session.commit()
+    session.close()
