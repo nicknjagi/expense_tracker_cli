@@ -37,7 +37,7 @@ if __name__ == "__main__":
         
     expenses = []
     for user in users:
-        for i in range(random.randint(1,5)):
+        for i in range(random.randint(1,8)):
             category = random.choice(categories)
             if user not in category.users:
                 category.users.append(user)
