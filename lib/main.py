@@ -108,6 +108,16 @@ def user_expenses_categories():
         click.secho(category)
     print('')      
         
+@cli.command
+def get_expenses():
+    expenses = session.query(Expense).all()
+    
+    click.secho('Showing all expenses', fg='yellow', underline=True)
+    for expense in expenses:
+        click.secho(expense)
+        
+    print('')
+
 if __name__ == "__main__":
     click.secho(f'\n{"-" * 30} EXPENSE TRACKER {"-" * 30}\n', bold=True, fg='bright_cyan')
     
