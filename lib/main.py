@@ -24,6 +24,7 @@ def create_user():
     session.commit()
     click.secho('User has been created',fg="green", bold=True)
     click.secho(user, fg='magenta')
+    print("")  
     return user
 
 @cli.command()
@@ -35,7 +36,8 @@ def search_user():
         click.secho(user, fg='magenta')
         return user
     else:
-        click.secho(f'No user with id {id} found.', fg='white')  
+        click.secho(f'No user with id {id} found.', fg='white') 
+    print("")  
         
 @cli.command()
 def delete_user():
@@ -47,7 +49,8 @@ def delete_user():
         click.secho('The user has been deleted.', fg="red")   
     else:
         click.secho(f'No user with id {id} found.', fg='white') 
-
+    print("")  
+    
 @cli.command()
 def get_users():
     all_users = session.query(User)
@@ -61,7 +64,9 @@ def get_categories():
     for category in categories:
         click.secho(category)
     
-    print("")    
+    print("")  
+    
+      
         
 if __name__ == "__main__":
     click.secho(f'\n{"-" * 30} EXPENSE TRACKER {"-" * 30}\n',overline=False, underline=False,bold=True, fg='bright_cyan')
