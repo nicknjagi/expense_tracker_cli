@@ -25,7 +25,6 @@ def create_user():
     click.secho('User has been created',fg="green", bold=True)
     click.secho(user, fg='magenta')
     print("")  
-    return user
 
 @cli.command()
 def search_user():
@@ -34,7 +33,6 @@ def search_user():
 
     if user:
         click.secho(user, fg='magenta')
-        return user
     else:
         click.secho(f'No user with id {id} found.', fg='white') 
     print("")  
@@ -56,6 +54,7 @@ def get_users():
     all_users = session.query(User)
     for user in all_users:
         click.secho(user)
+    print('')
         
 @cli.command()
 def get_categories():
@@ -66,9 +65,49 @@ def get_categories():
     
     print("")  
     
-      
+@cli.command()
+def create_expense():
+    amount = click.prompt(click.style("Enter the amount", fg="blue", bold=True))
+    description = click.prompt(click.style("Enter the description", fg="blue", bold=True))
+    user_id = click.prompt(click.style("Enter the user id", fg="blue", bold=True))
+    category= click.prompt(click.style("Enter the category", fg="blue", bold=True))
+    category_id = session.query(Category).filter(Category.name == category).first().id
+    
+    expense = Expense(
+        amount=amount,
+        description = description,
+        user_id = user_id,
+        category_id = category_id
+    )
+    session.add(expense)
+    session.commit()
+    click.secho('Expense has been recorded',fg="green", bold=True)
+    click.secho(expense, fg='magenta')
+    print("")
+
+@cli.command()
+def list_user_expenses():
+    id = click.prompt(click.style("Enter the user id", fg="blue", bold=True))
+    user = session.query(User).filter(User.id == id).first()
+    click.secho(f'\nExpenses for {user.first_name} {user.last_name}', fg='yellow')
+    
+    expenses = user.expenses
+    for expense in expenses:
+        click.secho(expense)
+    print('')
+
+@cli.command()
+def user_expenses_categories():
+    id = click.prompt(click.style("Enter the user id", fg="blue", bold=True))
+    user = session.query(User).filter(User.id == id).first()
+    click.secho(f'\nExpense categories for {user.first_name} {user.last_name}', fg='yellow')
+    
+    categories = user.categories
+    for category in categories:
+        click.secho(category)
+    print('')      
         
 if __name__ == "__main__":
-    click.secho(f'\n{"-" * 30} EXPENSE TRACKER {"-" * 30}\n',overline=False, underline=False,bold=True, fg='bright_cyan')
+    click.secho(f'\n{"-" * 30} EXPENSE TRACKER {"-" * 30}\n', bold=True, fg='bright_cyan')
     
     cli()
