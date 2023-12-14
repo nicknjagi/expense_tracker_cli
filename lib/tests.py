@@ -84,3 +84,16 @@ if __name__ == "__main__":
     
     print(f"{'*' * 6} deleting user by id {'*' * 6}")
     deleted_user = delete_user(36)
+    
+    print(f"{'*' * 6} getting all users {'*' * 6}")
+    get_users()
+    
+    print(f"{'*' * 6} getting all categories {'*' * 6}")
+    get_categories()
+    
+    print(f"{'*' * 6} searching category by name {'*' * 6}")
+    search_category('food')
+    
+    print(f"{'*' * 6} Creating new expense {'*' * 6}")
+    expense = create_expense(100, 'bought a toothbrush', 5, 'utilities')
+    
