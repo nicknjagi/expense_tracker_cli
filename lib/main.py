@@ -3,6 +3,7 @@
 from config import session
 from models import User, Expense, Category
 import click
+from sqlalchemy import func
 
 
 @click.group()
@@ -52,8 +53,9 @@ def delete_user():
 @cli.command()
 def get_users():
     all_users = session.query(User)
+    click.secho('Showing all users\n', fg='yellow', underline=True)
     for user in all_users:
-        click.secho(user)
+        click.secho(f'{user.first_name:15} | {user.last_name:15} | {user.phone_number:15}')
     print('')
         
 @cli.command()
@@ -107,6 +109,34 @@ def user_expenses_categories():
         click.secho(category)
     print('')      
         
+@cli.command
+def get_expenses():
+    expenses = session.query(Expense).all()
+    
+    click.secho('Showing all expenses', fg='yellow', underline=True)
+    for expense in expenses:
+        click.secho(expense)
+        
+    print('')
+
+@cli.command()
+def user_category_spending():
+    user_id = click.prompt(click.style("Enter the user id", fg="blue", bold=True))
+    category_amount = (
+        session.query(Category.name, func.sum(Expense.amount))
+        .join(Expense)
+        .filter(Expense.user_id == user_id)
+        .group_by(Category.name)
+        .all()
+        )
+    user = session.query(User).filter(User.id == user_id).first()
+    click.secho(f'\nCategory wise spending for {user.first_name} {user.last_name}', fg='yellow')
+    print('')
+    for category, amount in category_amount:
+        bar = '#' * int(amount / 15)
+        click.secho(f"Category: {category:15}, Total Spending: {amount} {bar}", fg='cyan')
+    print('')    
+
 if __name__ == "__main__":
     click.secho(f'\n{"-" * 30} EXPENSE TRACKER {"-" * 30}\n', bold=True, fg='bright_cyan')
     
