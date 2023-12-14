@@ -58,7 +58,7 @@ class Expense(Base):
     category_id=Column(Integer(),ForeignKey("categories.id"))
     
     def __repr__(self):
-        return f"Expense(id={self.id},amount={self.amount},date={self.date},category_id={self.category_id},user_id={self.user_id})"
+        return f"Expense(id={self.id},amount={self.amount},date={self.date},description={self.description}"
     
     
     
