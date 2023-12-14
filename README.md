@@ -26,7 +26,20 @@ Expense Tracker is a Python script that uses the command-line interface (CLI) fo
 
    
 
-   # How to use / Users are able to:
+   #  Users are able to:
+   - Add new users 
+   - View all users
+   - Search for specific users by id
+   - Delete users by id 
+   - Get expenses
+   - Get users
+   - Get categories
+   - Create expenses
+   - List user expenses
+   
+    
+
+   
        
 
 
