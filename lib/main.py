@@ -52,8 +52,9 @@ def delete_user():
 @cli.command()
 def get_users():
     all_users = session.query(User)
+    click.secho('Showing all users\n', fg='yellow', underline=True)
     for user in all_users:
-        click.secho(user)
+        click.secho(f'{user.first_name:15} | {user.last_name:15} | {user.phone_number:15}')
     print('')
         
 @cli.command()
