@@ -3,6 +3,7 @@
 from config import session
 from models import User, Expense, Category
 import click
+from sqlalchemy import func
 
 
 @click.group()
