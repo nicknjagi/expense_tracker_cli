@@ -10,9 +10,7 @@ Expense Tracker is a Python script that uses the command-line interface (CLI) fo
 - ipdb
 - click
 
-## Installations / How to us
-
-   # Installation   
+## Installations / How to use
 
    1. Fork and Clone the repository: 
 
@@ -20,13 +18,12 @@ Expense Tracker is a Python script that uses the command-line interface (CLI) fo
 
    3.  open and run the following to Set up a virtual environment: 
 
-       run the following in the VScode terminal ;{ pipenv install & pipenv shell}
+    ```pipenv install & pipenv shell```
 
    4. Run lib/main.py to view the list of available commands 
 
-   
 
-   #  Users are able to:
+   ##  Users are able to:
    - Add new users 
    - View all users
    - Search for specific users by id
@@ -38,12 +35,6 @@ Expense Tracker is a Python script that uses the command-line interface (CLI) fo
    - List user expenses
    
     
-
-   
-       
-
-
-
 ## Contributors
       
       Nicholas Njagi;
