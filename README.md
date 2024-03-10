@@ -16,7 +16,7 @@ Expense Tracker is a Python script that uses the command-line interface (CLI) fo
 
    2. open the cloned repository on Vscode
 
-   3.  open and run the following to Set up a virtual environment: 
+   3.  open the terminal in vs code and run the following to Set up a virtual environment: 
 
     ```pipenv install & pipenv shell```
 
