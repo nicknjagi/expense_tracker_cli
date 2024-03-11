@@ -1,7 +1,7 @@
 # EXPENSE TRACKER CLI APP
-Expense Tracker is a simple command-line tool for managing user information, expenses, and categories.
 
 Expense Tracker is a Python script that uses the command-line interface (CLI) for managing users, expenses, and categories. It utilizes SQLAlchemy for database interaction and Click for building the command-line interface.
+
 ## Tech used
 - Python
 - Alembic
@@ -23,7 +23,7 @@ Expense Tracker is a Python script that uses the command-line interface (CLI) fo
    4. Run lib/main.py to view the list of available commands 
 
 
-   ##  Users are able to:
+##  Users are able to:
    - Add new users 
    - View all users
    - Search for specific users by id
@@ -33,6 +33,10 @@ Expense Tracker is a Python script that uses the command-line interface (CLI) fo
    - Get categories
    - Create expenses
    - List user expenses
+
+## Screenshot
+![screenshot](expense_tracker.png)
+
    
     
 ## Contributors

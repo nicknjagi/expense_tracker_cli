@@ -4,6 +4,7 @@ from config import session
 from models import User, Expense, Category
 import click
 from sqlalchemy import func
+from tabulate import tabulate
 
 
 @click.group()
@@ -52,19 +53,26 @@ def delete_user():
     
 @cli.command()
 def get_users():
-    all_users = session.query(User)
+    all_users = session.query(User).all()
     click.secho('Showing all users\n', fg='yellow', underline=True)
-    for user in all_users:
-        click.secho(f'{user.first_name:15} | {user.last_name:15} | {user.phone_number:15}')
-    print('')
+     # Ensure all_users is a list of User objects
+    if all_users:
+        # Extract data from User objects and format it into a list of tuples
+        user_data = [(user.id, user.fullName(), user.phone_number) for user in all_users]
+        # Print tabulated data
+        print(tabulate(user_data, headers=['ID', 'Name', 'Phone Number'], tablefmt='pretty'))
+        print("")  
+    else:
+        click.echo('No users found.')
+        print("")  
+        
         
 @cli.command()
 def get_categories():
     categories = session.query(Category).all()
     click.secho('showing all categories', fg='yellow', underline=True, overline=True)
-    for category in categories:
-        click.secho(category)
-    
+    category_data = [(category.id, category.name) for category in categories]
+    print(tabulate(category_data, headers=['ID', 'Name'], tablefmt='pretty'))
     print("")  
     
 @cli.command()
@@ -94,8 +102,8 @@ def list_user_expenses():
     click.secho(f'\nExpenses for {user.first_name} {user.last_name}', fg='yellow')
     
     expenses = user.expenses
-    for expense in expenses:
-        click.secho(expense)
+    expense_data = [(expense.id, expense.amount, expense.date.date(), expense.description, expense.category_id) for expense in expenses]
+    print(tabulate(expense_data, headers=['ID', 'Amount', 'Date', 'Description'], tablefmt='pretty'))
     print('')
 
 @cli.command()
@@ -105,8 +113,19 @@ def user_expenses_categories():
     click.secho(f'\nExpense categories for {user.first_name} {user.last_name}', fg='yellow')
     
     categories = user.categories
+    category_data = []
+
     for category in categories:
-        click.secho(category)
+        # Check if there are expenses associated with the category
+        category_expenses = session.query(Expense).filter_by(user_id=user.id, category_id=category.id).first()
+        if category_expenses:
+            category_data.append((category.name,))
+    
+    if category_data:
+        print(tabulate(category_data, headers=['Categories'], tablefmt='pretty'))
+    else:
+        click.echo('No expenses found for any category.')
+        
     print('')      
         
 @cli.command
@@ -114,8 +133,8 @@ def get_expenses():
     expenses = session.query(Expense).all()
     
     click.secho('Showing all expenses', fg='yellow', underline=True)
-    for expense in expenses:
-        click.secho(expense)
+    expense_data = [(expense.id, expense.amount, expense.date.date(), expense.description) for expense in expenses]
+    print(tabulate(expense_data, headers=['ID', 'Amount', 'Date', 'Description'], tablefmt='pretty'))
         
     print('')
 
@@ -130,11 +149,12 @@ def user_category_spending():
         .all()
         )
     user = session.query(User).filter(User.id == user_id).first()
+
     click.secho(f'\nCategory wise spending for {user.first_name} {user.last_name}', fg='yellow')
     print('')
     for category, amount in category_amount:
         bar = '#' * int(amount / 15)
-        click.secho(f"Category: {category:15}, Total Spending: {amount} {bar}", fg='cyan')
+        click.secho(f"Category: {category:15} Total Spending: {amount} {bar}", fg='cyan')
     print('')    
 
 if __name__ == "__main__":
